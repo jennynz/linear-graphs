@@ -1,14 +1,41 @@
-import _ from 'lodash';
-import './scss/style.scss';
+import Chart from "chart.js";
+import "./scss/style.scss";
 
-function component() {
-    var element = document.createElement('div');
-  
-    // Lodash, now imported by this script
-    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-    element.classList.add('hello');
-  
-    return element;
+var ctx = document.getElementById("myChart");
+
+var data = [{
+  x: 0,
+  y: 0
+}, {
+  x: 10,
+  y: 10
+}];
+
+var options = {
+  scales: {
+    yAxes: [
+      {
+        ticks: {
+          max: 10,
+          min: 0,
+          stepSize: 2
+        }
+      }
+    ],
+    xAxes: [
+      {
+        ticks: {
+          max: 10,
+          min: 0,
+          stepSize: 2
+        }
+      }
+    ]
   }
-  
-  document.body.appendChild(component());
+};
+
+var linearGraph = new Chart(ctx, {
+  type: "line",
+  data: data,
+  options: options
+});
