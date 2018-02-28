@@ -1,38 +1,43 @@
 <html>
+
 <head>
     <title>Linear Graphs</title>
 </head>
+
 <body>
     <div id="wrapper">
+
         <div id="title">
             <h1>Linear Graphs</h1>
         </div>
-        <div id="graph-container">   
+
+        <div id="graph-container">
             <div id="graph"></div>
         </div>
-        <div>
-            m: <input
-                id="m_slider"
-                class="slider"
-                type="range"
-                min="0"
-                max="10"
-                step="0.1"
-            ><br>
-            c: <input
-                id="c_slider"
-                class="slider"
-                type="range"
-                min="0"
-                max="10"
-                step="0.1"
-            ><br>
-            <br>
-            <span class="equation">
-                y = <span id="m"></span>x + <span id="c"></span>
-            </span>
+
+        <div id="sidebar">
+            <div></div>
+            <div class="slider-wrapper">
+                <input id="m_slider" class="slider" type="range" min="-10" max="10" step="0.1">
+            </div>
+            <div></div>
+            <div class="slider-wrapper">
+                <input id="c_slider" class="slider" type="range" min="-10" max="10" step="0.1">
+            </div>
+
+            <div class="equation">y =</div>
+            <div class="equation"><span id="m" class="m"></span></div>
+            <div class="equation">x +</div>
+            <div class="equation"><span id="c" class="c"></span></div>
+
+            <div class="equation--secondary">y =</div>
+            <div class="equation--secondary"><span class="m">m</span></div>
+            <div class="equation--secondary">x +</div>
+            <div class="equation--secondary"><span class="c">c</span></div>
         </div>
+
     </div>
     <script src="./bundle.js"></script>
 </body>
+
 </html>

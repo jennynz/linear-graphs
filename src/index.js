@@ -1,19 +1,22 @@
 import $ from "jquery";
 import "flot";
+import "./js/jquery.flot.originaxis";
 import "./scss/style.scss";
 
-const x_min = 0;
+const x_min = -10;
 const x_max = 10;
-const y_min = 0;
+const y_min = -10;
 const y_max = 10;
 
 let m = 1;
 let c = 0;
 
-let data = [
-  [x_min, c],
-  [x_max, m*x_max + c]
-];
+let x1 = x_min;
+let y1 = m * x1 + c;
+let x2 = x_max;
+let y2 = m * x2 + c;
+
+let data = [ [x1, y1], [x2, y2] ];
 
 let dataset = [
   {
@@ -24,17 +27,18 @@ let dataset = [
 ];
 
 const options = {
+  crossOrigin: true,
   xaxis: {
     min: x_min,
     max: x_max,
     axisLabel: "x",
-    tickSize: 1
+    tickSize: 2
   },
   yaxis: {
     min: y_min,
     max: y_max,
     axisLabel: "y",
-    tickSize: 1
+    tickSize: 2
   },
   grid: {
     borderWidth: 0
@@ -44,17 +48,22 @@ const options = {
 let graph = $.plot("#graph", dataset, options);
 
 function newDataset(graph) {
+  m = $("#m_slider").val();
+  c = $("#c_slider").val();
+
+  if (m == 0) {
+    x1 = x_min;
+    x2 = x_max;
+    y1 = c
+    y2 = c
+  } else {
+    y1 = y_min;
+    y2 = y_max;
+    x1 = (y1 - c) / m;
+    x2 = (y2 - c) / m;
+  }
+
   const dataset = graph.getData();
-
-  const m = $("#m_slider").val();
-  const c = $("#c_slider").val();
-
-  const x1 = x_min;
-  const y1 = c;
-
-  const y2 = y_max;
-  const x2 = (y2 - c) / m;
-
   dataset[0].data = [[x1, y1], [x2, y2]];
   return(dataset);
 };
@@ -87,3 +96,4 @@ $("#c_slider").on("input", function() {
   graph.setData(newDataset(graph));
   graph.draw();
 });
+
