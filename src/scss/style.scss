@@ -1,0 +1,10 @@
+$my-red: red;
+
+body {
+    background-color: blue;
+}
+
+.hello {
+    background-color: $my-red;
+    font-size: 10rem;
+}
