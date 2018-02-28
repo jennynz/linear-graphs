@@ -2,58 +2,87 @@ import $ from "jquery";
 import "flot";
 import "./scss/style.scss";
 
-$(document).ready(() => {
+const x_min = 0;
+const x_max = 10;
+const y_min = 0;
+const y_max = 10;
 
-  var data = [[0, 0], [10, 10]];
-  
-  var dataset = [
-    {
-      color: "#333",
-      data: data,
-      shadowSize: 0
-    }
-  ]
-  
-  var options = {
-    xaxis: {
-      min: -10,
-      max: 10,
-      // tickSize: [1, "month"],
-      // tickLength: 0,
-      // axisLabel: "2012",
-      // axisLabelUseCanvas: true,
-      // axisLabelFontSizePixels: 12,
-      // axisLabelFontFamily: "Verdana, Arial",
-      axisLabelPadding: 10
-    },
-    yaxis: {
-      min: -10,
-      max: 10
-    },
-    grid: {
-      borderWidth: 0
-    }
-  };
+let m = 1;
+let c = 0;
 
-  var graph = $.plot("#graph", dataset, options);
+let data = [
+  [x_min, c],
+  [x_max, m*x_max + c]
+];
 
-  $("#refresh").click(function() {
+let dataset = [
+  {
+    color: "#333",
+    data: data,
+    shadowSize: 0
+  }
+];
 
-    var dataset = graph.getData();
-    var line = dataset[0].data;
-    var x1 = line[0][0];
-    var y1 = line[0][1];
-    var x2 = line[1][0];
-    var y2 = line[1][1];
+const options = {
+  xaxis: {
+    min: x_min,
+    max: x_max,
+    axisLabel: "x",
+    tickSize: 1
+  },
+  yaxis: {
+    min: y_min,
+    max: y_max,
+    axisLabel: "y",
+    tickSize: 1
+  },
+  grid: {
+    borderWidth: 0
+  }
+};
 
-    dataset[0].data = [
-      [x1 + 2, y1 + 2],
-      [x2 + 2, y2 + 2]
-    ];
+const graph = $.plot("#graph", dataset, options);
 
-    console.log(dataset[0].data);
-    graph.setData(dataset);
-    graph.draw();
-  });
+function newDataset(graph) {
+  const dataset = graph.getData();
 
+  const m = $("#m_slider").value;
+  const c = $("#c_slider").value;
+
+  const x1 = x_min
+  const y1 = c
+
+  const x2 = x_max
+  const y2 = x2 * m + c
+  console.log(m, c);
+
+  dataset[0].data = [[x1, y1], [x2, y2]];
+  return(dataset);
+};
+
+function updateEquation() {
+  $("#m").html($("#m_slider").val());
+  $("#c").html($("#c_slider").val());
+}
+
+
+// Initialise values
+$(document).ready(function() {
+  $("#m_slider").val(m);
+  $("#c_slider").val(c);
+  $("#m").html(m);
+  $("#c").html(c);
+});
+
+
+$(document).on("input", "#m_slider", function() {
+  updateEquation();
+  graph.setData(newDataset(graph));
+  graph.draw();
+});
+
+$(document).on("input", "#c_slider", function() {
+  updateEquation();
+  graph.setData(newDataset(graph));
+  graph.draw();
 });
