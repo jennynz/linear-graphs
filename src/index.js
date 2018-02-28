@@ -41,20 +41,19 @@ const options = {
   }
 };
 
-const graph = $.plot("#graph", dataset, options);
+let graph = $.plot("#graph", dataset, options);
 
 function newDataset(graph) {
   const dataset = graph.getData();
 
-  const m = $("#m_slider").value;
-  const c = $("#c_slider").value;
+  const m = $("#m_slider").val();
+  const c = $("#c_slider").val();
 
-  const x1 = x_min
-  const y1 = c
+  const x1 = x_min;
+  const y1 = c;
 
-  const x2 = x_max
-  const y2 = x2 * m + c
-  console.log(m, c);
+  const y2 = y_max;
+  const x2 = (y2 - c) / m;
 
   dataset[0].data = [[x1, y1], [x2, y2]];
   return(dataset);
@@ -66,22 +65,24 @@ function updateEquation() {
 }
 
 
-// Initialise values
+
 $(document).ready(function() {
+
+  // Initialise values
   $("#m_slider").val(m);
   $("#c_slider").val(c);
   $("#m").html(m);
   $("#c").html(c);
+
 });
 
-
-$(document).on("input", "#m_slider", function() {
+$("#m_slider").on("input", function() {
   updateEquation();
   graph.setData(newDataset(graph));
   graph.draw();
 });
 
-$(document).on("input", "#c_slider", function() {
+$("#c_slider").on("input", function() {
   updateEquation();
   graph.setData(newDataset(graph));
   graph.draw();
