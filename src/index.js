@@ -1,41 +1,16 @@
-import Chart from "chart.js";
+import $ from 'jquery';
+import 'flot';
 import "./scss/style.scss";
 
-var ctx = document.getElementById("myChart");
-
-var data = [{
-  x: 0,
-  y: 0
-}, {
-  x: 10,
-  y: 10
-}];
-
-var options = {
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          max: 10,
-          min: 0,
-          stepSize: 2
-        }
-      }
-    ],
-    xAxes: [
-      {
-        ticks: {
-          max: 10,
-          min: 0,
-          stepSize: 2
-        }
-      }
-    ]
+$(function() {
+  var d1 = [];
+  for (var i = 0; i < 14; i += 0.5) {
+    d1.push([i, Math.sin(i)]);
   }
-};
 
-var linearGraph = new Chart(ctx, {
-  type: "line",
-  data: data,
-  options: options
+  var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
+
+  var d3 = [[0, 12], [7, 12], null, [7, 2.5], [12, 2.5]];
+
+  $.plot("#graph", [d1, d2, d3]);
 });

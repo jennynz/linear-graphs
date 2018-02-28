@@ -25,11 +25,11 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.2",
     "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.9",
     "webpack-dev-server": "^3.1.0"
   },
   "dependencies": {
-    "chart.js": "^2.7.1",
-    "lodash": "^4.17.5",
-    "webpack-cli": "^2.0.9"
+    "flot": "^0.8.0-alpha",
+    "jquery": "^3.3.1"
   }
 }
