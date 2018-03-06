@@ -7,7 +7,7 @@ $slider-height: 150px;
 body {
   background-color: #f2f2f2;
   color: $text-color;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 #wrapper {
@@ -31,26 +31,28 @@ body {
 #sidebar {
   padding-left: 20px;
   margin: 20% 0 auto 0;
+}
+
+.sidebar-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: $slider-height 3.5rem 3.5rem;
 }
 
 %equation {
-  font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia,
-    serif;
+  font-family: TimesNewRoman, 'Times New Roman', Times, Baskerville, Georgia, serif;
   font-style: italic;
   font-weight: 500;
-  font-size: 3.5rem;
 }
 
 .equation {
   @extend %equation;
-}
-
-.equation--secondary {
-  @extend %equation;
-  opacity: 0.5;
+  &.main {
+    font-size: 3.5rem;
+  }
+  &.secondary {
+    opacity: 0.5;
+  }
 }
 
 .m {

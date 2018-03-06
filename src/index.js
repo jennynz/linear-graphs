@@ -1,7 +1,7 @@
-import $ from "jquery";
-import "flot";
-import "./js/jquery.flot.originaxis";
-import "./scss/style.scss";
+import $ from 'jquery';
+import 'flot';
+import './js/jquery.flot.originaxis';
+import './scss/style.scss';
 
 const x_min = -10;
 const x_max = 10;
@@ -16,14 +16,16 @@ let y1 = m * x1 + c;
 let x2 = x_max;
 let y2 = m * x2 + c;
 
-let data = [ [x1, y1], [x2, y2] ];
+let xInt = -c / m;
+
+let data = [[x1, y1], [x2, y2]];
 
 let dataset = [
   {
-    color: "#333",
+    color: '#333',
     data: data,
-    shadowSize: 0
-  }
+    shadowSize: 0,
+  },
 ];
 
 const options = {
@@ -31,31 +33,40 @@ const options = {
   xaxis: {
     min: x_min,
     max: x_max,
-    axisLabel: "x",
-    tickSize: 2
+    axisLabel: 'x',
+    tickSize: 2,
   },
   yaxis: {
     min: y_min,
     max: y_max,
-    axisLabel: "y",
-    tickSize: 2
+    axisLabel: 'y',
+    tickSize: 2,
   },
   grid: {
-    borderWidth: 0
-  }
+    borderWidth: 0,
+  },
 };
 
-let graph = $.plot("#graph", dataset, options);
+let graph = $.plot('#graph', dataset, options);
+
+function updateValues() {
+  m = $('#m_slider').val();
+  c = $('#c_slider').val();
+  xInt = -c / m;
+}
+
+function updateEquations() {
+  $('.m').html(m);
+  $('.c').html(c);
+  $('.xInt').html(xInt);
+}
 
 function newDataset(graph) {
-  m = $("#m_slider").val();
-  c = $("#c_slider").val();
-
   if (m == 0) {
     x1 = x_min;
     x2 = x_max;
-    y1 = c
-    y2 = c
+    y1 = c;
+    y2 = c;
   } else {
     y1 = y_min;
     y2 = y_max;
@@ -65,35 +76,26 @@ function newDataset(graph) {
 
   const dataset = graph.getData();
   dataset[0].data = [[x1, y1], [x2, y2]];
-  return(dataset);
-};
-
-function updateEquation() {
-  $("#m").html($("#m_slider").val());
-  $("#c").html($("#c_slider").val());
+  return dataset;
 }
 
+function update() {
+  updateValues();
+  updateEquations();
+}
 
+$('#m_slider, #c_slider').on('input', function() {
+  update();
+  graph.setData(newDataset(graph));
+  graph.draw();
+});
+
+function updateSliders() {
+  $('#m_slider')[0].value = m;
+  $('#c_slider')[0].value = c;
+}
 
 $(document).ready(function() {
-
-  // Initialise values
-  $("#m_slider").val(m);
-  $("#c_slider").val(c);
-  $("#m").html(m);
-  $("#c").html(c);
-
+  updateSliders();
+  updateEquations();
 });
-
-$("#m_slider").on("input", function() {
-  updateEquation();
-  graph.setData(newDataset(graph));
-  graph.draw();
-});
-
-$("#c_slider").on("input", function() {
-  updateEquation();
-  graph.setData(newDataset(graph));
-  graph.draw();
-});
-
